@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }} - Admin{% endblock %}
+
+{% block content %}
+<section class="section" style="margin-top: 76px;">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>{{ titulo }}</h1>
+            <a href="{{ url_for('admin.blog_admin') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Volver al Blog
+            </a>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST">
+                            {{ form.hidden_tag() }}
+                            
+                            <div class="row">
+                                <div class="col-md-8 mb-3">
+                                    {{ form.titulo.label(class="form-label") }}
+                                    {{ form.titulo(class="form-control", id="titulo") }}
+                                    {% if form.titulo.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.titulo.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <div class="form-check mt-4">
+                                        {{ form.visible(class="form-check-input") }}
+                                        {{ form.visible.label(class="form-check-label") }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.slug.label(class="form-label") }}
+                                {{ form.slug(class="form-control", id="slug") }}
+                                {% if form.slug.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.slug.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                                <small class="form-text text-muted">Se genera automáticamente desde el título</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.extracto.label(class="form-label") }}
+                                {{ form.extracto(class="form-control", rows="3", placeholder="Breve descripción del post (opcional)") }}
+                                {% if form.extracto.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.extracto.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-4">
+                                {{ form.contenido.label(class="form-label") }}
+                                {{ form.contenido(class="form-control", rows="15", placeholder="Contenido completo del post") }}
+                                {% if form.contenido.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.contenido.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-save me-2"></i>{{ 'Actualizar' if post else 'Crear' }} Post
+                                </button>
+                                
+                                {% if post %}
+                                    <a href="{{ url_for('blog.post', slug=post.slug) }}" 
+                                       class="btn btn-outline-info" target="_blank">
+                                        <i class="bi bi-eye me-2"></i>Vista Previa
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Ayuda</h6>
+                    </div>
+                    <div class="card-body">
+                        <h6>Título</h6>
+                        <p class="small">Un título atractivo y descriptivo para tu post.</p>
+                        
+                        <h6>Slug</h6>
+                        <p class="small">La URL amigable del post. Se genera automáticamente pero puedes editarla.</p>
+                        
+                        <h6>Extracto</h6>
+                        <p class="small">Resumen breve que aparece en la lista de posts. Si está vacío, se usa el inicio del contenido.</p>
+                        
+                        <h6>Contenido</h6>
+                        <p class="small">El contenido completo del post. Puedes usar HTML básico para formatear.</p>
+                        
+                        <h6>Visible</h6>
+                        <p class="small">Controla si el post es visible en el blog público o está oculto.</p>
+                    </div>
+                </div>
+                
+                {% if post %}
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h6 class="mb-0">Información</h6>
+                        </div>
+                        <div class="card-body">
+                            <small class="text-muted">
+                                <strong>Creado:</strong> {{ post.fecha_pub.strftime('%d/%m/%Y %H:%M') }}<br>
+                                <strong>Estado:</strong> {{ 'Visible' if post.visible else 'Oculto' }}
+                            </small>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+// Auto-generate slug from title (this is also handled in main.js)
+document.addEventListener('DOMContentLoaded', function() {
+    const titleInput = document.getElementById('titulo');
+    const slugInput = document.getElementById('slug');
+    
+    if (titleInput && slugInput) {
+        titleInput.addEventListener('input', function(e) {
+            const slug = e.target.value
+                .toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim();
+            slugInput.value = slug;
+        });
+    }
+});
+</script>
+{% endblock %}

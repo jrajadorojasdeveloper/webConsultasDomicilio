@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Servicios Veterinarios a Domicilio - Madrid{% endblock %}
+
+{% block content %}
+<section class="section" style="margin-top: 76px;">
+    <div class="container">
+        <h1 class="section-title">Nuestros Servicios</h1>
+        <p class="section-subtitle">Atención veterinaria completa en la comodidad de tu hogar</p>
+        
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4><i class="bi bi-stethoscope text-primary me-2"></i>Consultas Generales</h4>
+                        <p>Revisiones completas y diagnósticos básicos.</p>
+                        <div class="fw-bold text-primary">Desde 45€</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4><i class="bi bi-shield-plus text-primary me-2"></i>Vacunación</h4>
+                        <p>Programas de vacunación completos.</p>
+                        <div class="fw-bold text-primary">Desde 35€</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{{ url_for('booking.nueva_cita') }}" class="btn btn-primary">Reservar Cita</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

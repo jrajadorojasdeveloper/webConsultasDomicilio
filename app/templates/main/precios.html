@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Precios - Veterinaria a Domicilio{% endblock %}
+
+{% block content %}
+<section class="section" style="margin-top: 76px;">
+    <div class="container">
+        <h1 class="section-title">Precios</h1>
+        <p class="section-subtitle">Precios orientativos - Confirmación tras valoración</p>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Servicio</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Consulta General</td>
+                                <td>Desde 45€</td>
+                            </tr>
+                            <tr>
+                                <td>Vacunación</td>
+                                <td>Desde 35€</td>
+                            </tr>
+                            <tr>
+                                <td>Desparasitación</td>
+                                <td>Desde 30€</td>
+                            </tr>
+                            <tr>
+                                <td>Analíticas</td>
+                                <td>Desde 65€</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Los precios pueden variar según la distancia y complejidad del caso.
+                </div>
+                
+                <div class="text-center">
+                    <a href="{{ url_for('booking.nueva_cita') }}" class="btn btn-primary">Solicitar Presupuesto</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

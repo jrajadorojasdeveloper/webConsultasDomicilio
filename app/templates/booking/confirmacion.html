@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Confirmación de Cita - Veterinaria a Domicilio{% endblock %}
+
+{% block content %}
+<section class="section" style="margin-top: 76px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-custom">
+                    <div class="card-body p-5 text-center">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+                        <h2 class="mt-3 mb-4">¡Solicitud Enviada!</h2>
+                        <p class="lead">Tu solicitud de cita ha sido recibida correctamente.</p>
+                        <div class="alert alert-info">
+                            <strong>ID de cita:</strong> #{{ cita.id }}<br>
+                            <strong>Fecha solicitada:</strong> {{ cita.fecha_pref.strftime('%d/%m/%Y') }}<br>
+                            <strong>Hora solicitada:</strong> {{ cita.hora_pref.strftime('%H:%M') }}
+                        </div>
+                        <p>Te contactaremos en las próximas 24 horas para confirmar la cita.</p>
+                        <a href="{{ url_for('main.home') }}" class="btn btn-primary">Volver al Inicio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

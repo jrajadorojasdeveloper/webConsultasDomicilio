@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Veterinaria a Domicilio - Cuidado profesional en la comodidad de tu hogar{% endblock %}</title>
+    
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="{% block description %}Servicios veterinarios a domicilio profesionales. Cuidamos a tu mascota en la comodidad de tu hogar con menos estrés y máxima atención.{% endblock %}">
+    <meta name="keywords" content="veterinario a domicilio, consulta veterinaria, mascotas, perros, gatos, vacunación, desparasitación">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{% block og_title %}Veterinaria a Domicilio{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Servicios veterinarios profesionales en la comodidad de tu hogar{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="{{ url_for('main.home') }}">
+                <i class="bi bi-heart-pulse me-2"></i>
+                GaiaVet
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.home') }}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.servicios') }}">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.precios') }}">Precios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.cobertura') }}">Cobertura</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.sobre') }}">Sobre Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('blog.index') }}">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.contacto') }}">Contacto</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex">
+                    <a href="{{ url_for('booking.nueva_cita') }}" class="btn btn-primary">
+                        <i class="bi bi-calendar-plus me-1"></i>
+                        Reservar Cita
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container mt-5 pt-4">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-heart-pulse me-2"></i>
+                        GaiaVet
+                    </h5>
+                    <p class="text-white">
+                        Cuidado veterinario profesional en la comodidad de tu hogar. 
+                        Reducimos el estrés de tu mascota mientras proporcionamos atención médica de calidad.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-light"><i class="bi bi-instagram fs-5"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Servicios</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('main.servicios') }}" class="text-white text-decoration-none">Consultas</a></li>
+                        <li><a href="{{ url_for('main.servicios') }}" class="text-white text-decoration-none">Vacunación</a></li>
+                        <li><a href="{{ url_for('main.servicios') }}" class="text-white text-decoration-none">Desparasitación</a></li>
+                        <li><a href="{{ url_for('main.servicios') }}" class="text-white text-decoration-none">Analíticas</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Información</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('main.faq') }}" class="text-white text-decoration-none">FAQ</a></li>
+                        <li><a href="{{ url_for('main.precios') }}" class="text-white text-decoration-none">Precios</a></li>
+                        <li><a href="{{ url_for('main.cobertura') }}" class="text-white text-decoration-none">Cobertura</a></li>
+                        <li><a href="{{ url_for('blog.index') }}" class="text-white text-decoration-none">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h6 class="fw-bold mb-3">Contacto</h6>
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-telephone me-3"></i>
+                        <span>+34 123 456 789</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-whatsapp me-3"></i>
+                        <span>+34 123 456 789</span>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-envelope me-3"></i>
+                        <span>info@vetdomicilio.com</span>
+                    </div>
+                    <div class="d-flex align-items-start">
+                        <i class="bi bi-geo-alt me-3 mt-1"></i>
+                        <span>León y área metropolitana</span>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0 text-white">
+                        © {{ now.strftime('%Y') }} GaiaVet. Todos los derechos reservados.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="{{ url_for('main.privacidad') }}" class="text-white text-decoration-none me-3">Privacidad</a>
+                    <a href="{{ url_for('main.cookies') }}" class="text-white text-decoration-none me-3">Cookies</a>
+                    <a href="{{ url_for('main.legal') }}" class="text-white text-decoration-none">Legal</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

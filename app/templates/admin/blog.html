@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Gestión de Blog - Admin{% endblock %}
+
+{% block content %}
+<section class="section" style="margin-top: 76px;">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Gestión de Blog</h1>
+            <div>
+                <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-secondary me-2">Dashboard</a>
+                <a href="{{ url_for('admin.nuevo_post') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-2"></i>Nuevo Post
+                </a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                {% if posts %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Título</th>
+                                    <th>Slug</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for post in posts %}
+                                    <tr>
+                                        <td>#{{ post.id }}</td>
+                                        <td>
+                                            <strong>{{ post.titulo }}</strong>
+                                            {% if post.extracto %}
+                                                <br><small class="text-muted">{{ post.extracto[:80] }}{% if post.extracto|length > 80 %}...{% endif %}</small>
+                                            {% endif %}
+                                        </td>
+                                        <td><code>{{ post.slug }}</code></td>
+                                        <td>{{ post.fecha_pub.strftime('%d/%m/%Y') }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ 'success' if post.visible else 'secondary' }}">
+                                                {{ 'Visible' if post.visible else 'Oculto' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                {% if post.visible %}
+                                                    <a href="{{ url_for('blog.post', slug=post.slug) }}" 
+                                                       class="btn btn-outline-info" target="_blank">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                {% endif %}
+                                                <a href="{{ url_for('admin.editar_post', post_id=post.id) }}" 
+                                                   class="btn btn-outline-primary">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <form method="POST" action="{{ url_for('admin.eliminar_post', post_id=post.id) }}" 
+                                                      style="display: inline-block;"
+                                                      onsubmit="return confirm('¿Estás seguro de que quieres eliminar este post?')">
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                    <button type="submit" class="btn btn-outline-danger">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-journal-x text-muted" style="font-size: 3rem;"></i>
+                        <p class="text-muted mt-2">No hay posts para mostrar</p>
+                        <a href="{{ url_for('admin.nuevo_post') }}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-2"></i>Crear el primer post
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

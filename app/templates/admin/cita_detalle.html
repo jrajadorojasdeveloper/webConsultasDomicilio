@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Cita #{{ cita.id }} - Admin{% endblock %}
+
+{% block content %}
+<section class="section" style="margin-top: 76px;">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Cita #{{ cita.id }}</h1>
+            <a href="{{ url_for('admin.citas') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Volver a Citas
+            </a>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Información del Cliente</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Nombre:</strong> {{ cita.nombre }}<br>
+                                <strong>Email:</strong> {{ cita.email }}<br>
+                                <strong>Teléfono:</strong> {{ cita.telefono }}
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Dirección:</strong><br>
+                                {{ cita.direccion }}<br>
+                                {{ cita.localidad }}, {{ cita.cp }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Información de la Mascota</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Tipo:</strong> {{ cita.mascota_tipo|title }}<br>
+                                <strong>Edad:</strong> {{ cita.mascota_edad or 'No especificada' }}
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Zona:</strong> {{ cita.zona }}<br>
+                                <strong>Fecha solicitada:</strong> {{ cita.fecha_pref.strftime('%d/%m/%Y') }}<br>
+                                <strong>Hora solicitada:</strong> {{ cita.hora_pref.strftime('%H:%M') }}
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <strong>Motivo de la consulta:</strong>
+                            <p class="bg-light p-3 rounded">{{ cita.motivo }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if cita.nota_interna %}
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Nota Interna</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>{{ cita.nota_interna }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Estado de la Cita</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="{{ url_for('admin.actualizar_cita', cita_id=cita.id) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <div class="mb-3">
+                                <label for="estado" class="form-label">Estado:</label>
+                                <select name="estado" id="estado" class="form-select">
+                                    <option value="pendiente" {{ 'selected' if cita.estado == 'pendiente' }}>Pendiente</option>
+                                    <option value="confirmada" {{ 'selected' if cita.estado == 'confirmada' }}>Confirmada</option>
+                                    <option value="completada" {{ 'selected' if cita.estado == 'completada' }}>Completada</option>
+                                    <option value="cancelada" {{ 'selected' if cita.estado == 'cancelada' }}>Cancelada</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="nota_interna" class="form-label">Nota Interna:</label>
+                                <textarea name="nota_interna" id="nota_interna" class="form-control" rows="4" placeholder="Añadir nota interna...">{{ cita.nota_interna or '' }}</textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-save me-2"></i>Actualizar Cita
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Información Adicional</h5>
+                    </div>
+                    <div class="card-body">
+                        <small class="text-muted">
+                            <strong>Creada:</strong> {{ cita.created_at.strftime('%d/%m/%Y %H:%M') }}<br>
+                            {% if cita.updated_at != cita.created_at %}
+                                <strong>Última actualización:</strong> {{ cita.updated_at.strftime('%d/%m/%Y %H:%M') }}
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

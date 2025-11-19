@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Mensajes de Contacto - Admin{% endblock %}
+
+{% block content %}
+<section class="section" style="margin-top: 76px;">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Mensajes de Contacto</h1>
+            <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-secondary">Dashboard</a>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                {% if mensajes.items %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Asunto</th>
+                                    <th>Fecha</th>
+                                    <th>Mensaje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mensaje in mensajes.items %}
+                                    <tr>
+                                        <td>#{{ mensaje.id }}</td>
+                                        <td>{{ mensaje.nombre }}</td>
+                                        <td>{{ mensaje.email }}</td>
+                                        <td>{{ mensaje.asunto }}</td>
+                                        <td>{{ mensaje.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-info" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#mensajeModal{{ mensaje.id }}">
+                                                Ver
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    
+                                    <!-- Modal para ver mensaje completo -->
+                                    <div class="modal fade" id="mensajeModal{{ mensaje.id }}" tabindex="-1">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">{{ mensaje.asunto }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <strong>De:</strong> {{ mensaje.nombre }} &lt;{{ mensaje.email }}&gt;<br>
+                                                        <strong>Fecha:</strong> {{ mensaje.created_at.strftime('%d/%m/%Y a las %H:%M') }}
+                                                    </div>
+                                                    <div class="bg-light p-3 rounded">
+                                                        {{ mensaje.mensaje|nl2br }}
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="mailto:{{ mensaje.email }}?subject=Re: {{ mensaje.asunto }}" 
+                                                       class="btn btn-primary">
+                                                        <i class="bi bi-reply me-2"></i>Responder
+                                                    </a>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    {% if mensajes.pages > 1 %}
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                {% if mensajes.has_prev %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url_for('admin.mensajes', page=mensajes.prev_num) }}">Anterior</a>
+                                    </li>
+                                {% endif %}
+                                
+                                {% for page_num in mensajes.iter_pages() %}
+                                    {% if page_num %}
+                                        {% if page_num != mensajes.page %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="{{ url_for('admin.mensajes', page=page_num) }}">{{ page_num }}</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item active">
+                                                <span class="page-link">{{ page_num }}</span>
+                                            </li>
+                                        {% endif %}
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link">…</span>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if mensajes.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url_for('admin.mensajes', page=mensajes.next_num) }}">Siguiente</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="bi bi-envelope-x text-muted" style="font-size: 3rem;"></i>
+                        <p class="text-muted mt-2">No hay mensajes para mostrar</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

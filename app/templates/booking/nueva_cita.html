@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}Reservar Cita - Veterinaria a Domicilio{% endblock %}
+
+{% block content %}
+<section class="section" style="margin-top: 76px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-custom">
+                    <div class="card-body p-5">
+                        <h2 class="text-center mb-4">
+                            <i class="bi bi-calendar-plus text-primary me-2"></i>
+                            Reservar Cita Veterinaria
+                        </h2>
+                        <p class="text-center text-muted mb-4">
+                            Completa el formulario y te contactaremos en 24 horas para confirmar tu cita.
+                        </p>
+                        
+                        <form method="POST" class="needs-validation" novalidate>
+                            {{ form.hidden_tag() }}
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.nombre.label(class="form-label") }}
+                                    {{ form.nombre(class="form-control") }}
+                                    {% if form.nombre.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.nombre.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    {{ form.email.label(class="form-label") }}
+                                    {{ form.email(class="form-control") }}
+                                    {% if form.email.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.email.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.telefono.label(class="form-label") }}
+                                    {{ form.telefono(class="form-control") }}
+                                    {% if form.telefono.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.telefono.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    {{ form.cp.label(class="form-label") }}
+                                    {{ form.cp(class="form-control") }}
+                                    {% if form.cp.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.cp.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-8 mb-3">
+                                    {{ form.direccion.label(class="form-label") }}
+                                    {{ form.direccion(class="form-control", rows="2") }}
+                                    {% if form.direccion.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.direccion.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    {{ form.localidad.label(class="form-label") }}
+                                    {{ form.localidad(class="form-control") }}
+                                    {% if form.localidad.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.localidad.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.mascota_tipo.label(class="form-label") }}
+                                    {{ form.mascota_tipo(class="form-select") }}
+                                    {% if form.mascota_tipo.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.mascota_tipo.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    {{ form.mascota_edad.label(class="form-label") }}
+                                    {{ form.mascota_edad(class="form-control", placeholder="Ej: 2 años, 6 meses") }}
+                                    {% if form.mascota_edad.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.mascota_edad.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.motivo.label(class="form-label") }}
+                                {{ form.motivo(class="form-control", rows="3", placeholder="Describe el motivo de la consulta") }}
+                                {% if form.motivo.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.motivo.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.zona.label(class="form-label") }}
+                                {{ form.zona(class="form-select") }}
+                                {% if form.zona.errors %}
+                                    <div class="text-danger small">
+                                        {% for error in form.zona.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.fecha_pref.label(class="form-label") }}
+                                    {{ form.fecha_pref(class="form-control", id="fecha_pref") }}
+                                    {% if form.fecha_pref.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.fecha_pref.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    {{ form.hora_pref.label(class="form-label") }}
+                                    {{ form.hora_pref(class="form-control", id="hora_pref") }}
+                                    {% if form.hora_pref.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.hora_pref.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <small class="text-muted">Horario: 9:00 - 18:00</small>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    {{ form.privacidad(class="form-check-input") }}
+                                    {{ form.privacidad.label(class="form-check-label") }}
+                                    <a href="{{ url_for('main.privacidad') }}" target="_blank">política de privacidad</a>
+                                    {% if form.privacidad.errors %}
+                                        <div class="text-danger small">
+                                            {% for error in form.privacidad.errors %}{{ error }}{% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="bi bi-send me-2"></i>
+                                    Enviar Solicitud
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

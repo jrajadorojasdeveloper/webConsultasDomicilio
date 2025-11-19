@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto - Veterinaria a Domicilio{% endblock %}
+
+{% block content %}
+<section class="section" style="margin-top: 76px;">
+    <div class="container">
+        <h1 class="section-title">Contacto</h1>
+        
+        <div class="row">
+            <div class="col-lg-6">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.nombre.label(class="form-label") }}
+                        {{ form.nombre(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.asunto.label(class="form-label") }}
+                        {{ form.asunto(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.mensaje.label(class="form-label") }}
+                        {{ form.mensaje(class="form-control", rows="5") }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                </form>
+            </div>
+            <div class="col-lg-6">
+                <h4>Información de Contacto</h4>
+                <p><i class="bi bi-telephone me-2"></i>+34 123 456 789</p>
+                <p><i class="bi bi-envelope me-2"></i>info@vetdomicilio.com</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
